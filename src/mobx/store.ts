@@ -2,23 +2,23 @@ import { makeAutoObservable } from "mobx";
 
 export interface User {
   id: number;
-  UserName: string;
+  Username: string;
   FullName: string;
-  LastLogin: string;
+  LastLogin: Date;
   Enabled: boolean;
 }
 
 const addUser = (
   users: User[],
-  UserName: string,
+  Username: string,
   FullName: string,
-  LastLogin: string,
+  LastLogin: Date,
   Enabled: boolean
 ): User[] => [
   ...users,
   {
     id: Math.max(0, Math.max(...users.map(({ id }) => id))) + 1,
-    UserName,
+    Username,
     FullName,
     LastLogin,
     Enabled,
@@ -31,9 +31,9 @@ const removeUser = (users: User[], id: number): User[] =>
 //Mobx implementation
 class Store {
   users: User[] = [];
-  UserName: string = "";
+  Username: string = "";
   FullName: string = "";
-  LastLogin: string = "";
+  LastLogin: Date = new Date();
   Enabled: boolean = false;
   isLoading: boolean = false;
 
@@ -53,6 +53,10 @@ class Store {
     })
       .then((res) => res.json())
       .then((data) => {
+        /* Convert the string Last login to Date so that kendo format prop work*/
+        data.map((d: User) => {
+          d.LastLogin = new Date(d.LastLogin);
+        });
         this.users = data;
       })
       .catch((err) => console.log("Error: ", err));
@@ -60,14 +64,14 @@ class Store {
   addUser() {
     this.users = addUser(
       this.users,
-      this.UserName,
+      this.Username,
       this.FullName,
       this.LastLogin,
       this.Enabled
     );
-    this.UserName = "";
+    this.Username = "";
     this.FullName = "";
-    this.LastLogin = "";
+    this.LastLogin = new Date();
     this.Enabled = false;
   }
 }
