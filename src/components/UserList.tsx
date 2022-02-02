@@ -9,9 +9,9 @@ console.log(store.users);
 const UserList: React.FC<UserListProps> = ({}) => {
   return (
     <Grid data={store.users}>
-      <GridColumn field="UserName" />
-      <GridColumn field="FullName" />
-      <GridColumn field="LastLogin" />
+      <GridColumn field="Username" title="User Name" />
+      <GridColumn field="FullName" title="Full Name" />
+      <GridColumn field="LastLogin" title="Last Login" />
       <GridColumn field="Enabled" />
     </Grid>
   );

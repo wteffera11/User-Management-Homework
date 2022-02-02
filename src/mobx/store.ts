@@ -1,7 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import userss from "./users.json";
 
-console.log("Users: ", userss);
 export interface User {
   id: number;
   UserName: string;
@@ -47,7 +45,17 @@ class Store {
   //load user from mock json file
   loadUsers() {
     this.isLoading = true;
-    const usersPromise = fetch("./users.json");
+    fetch("users.json", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        this.users = data;
+      })
+      .catch((err) => console.log("Error: ", err));
   }
   addUser() {
     this.users = addUser(
