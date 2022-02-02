@@ -1,5 +1,9 @@
 import React, { useCallback, useState } from "react";
-import { Grid, GridColumn as Column } from "@progress/kendo-react-grid";
+import {
+  Grid,
+  GridColumn as Column,
+  GridColumnMenuFilter,
+} from "@progress/kendo-react-grid";
 import { observer } from "mobx-react";
 import store from "../mobx/store";
 import {
@@ -10,16 +14,6 @@ import {
 } from "@progress/kendo-data-query";
 
 interface UserListProps {}
-
-// interface SortType {
-//   field: string;
-//   dir: string;
-// }
-// interface
-// interface FilterType {
-//     logic: string;
-//     filters: CompositeFilterDescriptor[];
-// }
 
 const UserList: React.FC<UserListProps> = ({}) => {
   const initialSort: SortDescriptor[] = [
@@ -55,11 +49,29 @@ const UserList: React.FC<UserListProps> = ({}) => {
       onFilterChange={(e) => setFilter(e.filter)}
     >
       <Column field="Username" title="User Name" />
-      <Column field="FullName" title="Full Name" />
-      <Column field="LastLogin" title="Last Login" />
-      <Column field="Enabled" />
+      <Column field="FullName" title="Full Name" filterable={false} />
+      <Column
+        field="LastLogin"
+        title="Last Login"
+        filterable={false}
+        format="{0:MMM yyyy}"
+      />
+      <Column
+        field="Enabled"
+        filterable={false}
+        cell={(d) => {
+          const res = d.dataItem["Enabled"] ? "Yes" : "No";
+          return (
+            <td style={{ color: d.dataItem["Enabled"] ? "" : "red" }}>{res}</td>
+          );
+        }}
+      />
     </Grid>
   );
+};
+
+const ColumnM = () => {
+  return <h1>Hello</h1>;
 };
 
 const ObserverableUserList = observer(UserList);
