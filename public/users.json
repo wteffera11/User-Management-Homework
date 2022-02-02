@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "Username": "Ermias",
+    "FullName": "Ermias Tefera",
+    "LastLogin": "2013-07-07T00:00:00",
+    "Enabled": true
+  },
+  {
+    "id": 2,
+    "Username": "Anna",
+    "FullName": "Anna Capkova",
+    "LastLogin": "2021-07-07T00:00:00",
+    "Enabled": true
+  },
+  {
+    "id": 3,
+    "Username": "Yared",
+    "FullName": "Yared Yenealem",
+    "LastLogin": "2021-07-07T00:00:00",
+    "Enabled": false
+  },
+  {
+    "id": 4,
+    "Username": "Benim",
+    "FullName": "Bety Ask",
+    "LastLogin": "2021-07-07T00:00:00",
+    "Enabled": true
+  },
+  {
+    "id": 5,
+    "Username": "New",
+    "FullName": "New User",
+    "LastLogin": "2021-07-07T00:00:00",
+    "Enabled": true
+  }
+]
