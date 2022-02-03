@@ -2,6 +2,8 @@
   {
     "id": 1,
     "Username": "Ermias",
+    "FirstName": "Ermias",
+    "LastName": "Tefera",
     "FullName": "Ermias Tefera",
     "LastLogin": "2012-04-23T18:25:43.511Z",
     "Enabled": false
@@ -9,6 +11,8 @@
   {
     "id": 2,
     "Username": "Anna",
+    "FirstName": "Anna",
+    "LastName": "Capkova",
     "FullName": "Anna Capkova",
     "LastLogin": "2021-07-07T00:00:00",
     "Enabled": true
@@ -16,6 +20,8 @@
   {
     "id": 3,
     "Username": "Yared",
+    "FirstName": "Yared",
+    "LastName": "Yenealem",
     "FullName": "Yared Yenealem",
     "LastLogin": "2021-07-07T00:00:00",
     "Enabled": false
@@ -23,6 +29,8 @@
   {
     "id": 4,
     "Username": "Benim",
+    "FirstName": "Bety",
+    "LastName": "Ask",
     "FullName": "Bety Ask",
     "LastLogin": "2021-07-07T00:00:00",
     "Enabled": true
@@ -30,6 +38,8 @@
   {
     "id": 5,
     "Username": "New",
+    "FirstName": "New",
+    "LastName": "User",
     "FullName": "New User",
     "LastLogin": "2021-07-07T00:00:00",
     "Enabled": true

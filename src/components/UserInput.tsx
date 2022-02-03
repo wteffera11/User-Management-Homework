@@ -76,8 +76,8 @@ export const UserInput: React.FC<UserInputProps> = ({
               />
             </div>
             <Button
+              className="success"
               style={{ width: "90%", fontWeight: "bold" }}
-              className="k-button success"
             >
               Submit
             </Button>

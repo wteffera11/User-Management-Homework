@@ -32,6 +32,7 @@ export const NewUser: React.FC<NewUserProps> = ({
             top: "10%",
           }}
           onClick={() => setShowDialog((prev) => !prev)}
+          primary
         >
           X
         </Button>
