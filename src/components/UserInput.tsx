@@ -1,19 +1,25 @@
-import React from "react";
-import {
-  Form,
-  Field,
-  FormElement,
-  FieldWrapper,
-} from "@progress/kendo-react-form";
-import { Label, Hint, Error } from "@progress/kendo-react-labels";
+import React, { Dispatch, SetStateAction } from "react";
+import { Form, Field, FormElement } from "@progress/kendo-react-form";
 import { Checkbox, Input } from "@progress/kendo-react-inputs";
 import { Button } from "@progress/kendo-react-buttons";
-import { DateTimePicker } from "@progress/kendo-react-dateinputs";
 import store from "../mobx/store";
+import { FormInput } from "./FormInput";
+import {
+  firstNameValidator,
+  lastNameValidator,
+  userNameValidator,
+} from "../Validation/Validator";
+import "./NewUser.css";
 
-interface UserInputProps {}
+interface UserInputProps {
+  showDialog: boolean;
+  setShowDialog: Dispatch<SetStateAction<boolean>>;
+}
 
-export const UserInput: React.FC<UserInputProps> = () => {
+export const UserInput: React.FC<UserInputProps> = ({
+  showDialog,
+  setShowDialog,
+}) => {
   const handleSubmit = (dataItem: { [name: string]: any }) => {
     // console.log(data.enabled);
     store.Username = dataItem.userName;
@@ -22,7 +28,7 @@ export const UserInput: React.FC<UserInputProps> = () => {
     store.Enabled = dataItem.enabled;
 
     store.addUser();
-    console.log("Red: ", JSON.stringify(dataItem.userName));
+    setShowDialog((prev) => !prev);
   };
   return (
     <>
@@ -38,32 +44,30 @@ export const UserInput: React.FC<UserInputProps> = () => {
             }}
           >
             <Field
-              label="User Name"
-              name="userName"
-              component={Input}
-              className="mb-3"
+              id={"userName"}
+              name={"userName"}
+              label={"User Name"}
+              component={FormInput}
+              validator={userNameValidator}
               style={{ width: "90%" }}
             />
             <Field
+              id="firstName"
               label="First Name"
               name="firstName"
-              component={Input}
+              component={FormInput}
+              validator={firstNameValidator}
               style={{ width: "90%" }}
             />
             <Field
+              id="lastName"
               label="Last Name"
               name="lastName"
-              component={Input}
+              component={FormInput}
+              validator={lastNameValidator}
               style={{ width: "90%" }}
             />
             <div style={{ margin: "0.5rem 0" }}>
-              <Field
-                label="Last Login"
-                name="lastLogin"
-                component={DateTimePicker}
-                style={{ margin: "0 1rem 0 0", backgroundColor: "red" }}
-              />
-
               <Field
                 label="Enabled"
                 name="enabled"
@@ -71,7 +75,12 @@ export const UserInput: React.FC<UserInputProps> = () => {
                 style={{ margin: "1rem" }}
               />
             </div>
-            <Button style={{ width: "90%" }}>Submit</Button>
+            <Button
+              style={{ width: "90%", fontWeight: "bold" }}
+              className="k-button success"
+            >
+              Submit
+            </Button>
           </FormElement>
         )}
       ></Form>

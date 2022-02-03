@@ -13,7 +13,11 @@ function App() {
       <Button className="btn" onClick={() => setShowDialog((prev) => !prev)}>
         New User
       </Button>
-      {showDialog ? <NewUser /> : ""}
+      {showDialog ? (
+        <NewUser showDialog={showDialog} setShowDialog={setShowDialog} />
+      ) : (
+        ""
+      )}
       <ObserverableUserList />
     </div>
   );
