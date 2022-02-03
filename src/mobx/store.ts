@@ -3,6 +3,8 @@ import { makeAutoObservable } from "mobx";
 export interface User {
   id: number;
   Username: string;
+  FirstName: string;
+  LastName: string;
   FullName: string;
   LastLogin: Date;
   Enabled: boolean;
@@ -12,6 +14,8 @@ const addUser = (
   users: User[],
   Username: string,
   FullName: string,
+  FirstName: string,
+  LastName: string,
   LastLogin: Date = new Date(),
   Enabled: boolean
 ): User[] => [
@@ -20,6 +24,8 @@ const addUser = (
     id: Math.max(0, Math.max(...users.map(({ id }) => id))) + 1,
     Username,
     FullName,
+    FirstName,
+    LastName,
     LastLogin,
     Enabled,
   },
@@ -28,11 +34,16 @@ const addUser = (
 const removeUser = (users: User[], id: number): User[] =>
   users.filter((user) => user.id === id);
 
+const getUser = (users: User[], id: number): User | undefined =>
+  users.find((user) => user.id === id);
+
 //Mobx implementation
 class Store {
   users: User[] = [];
   Username: string = "";
   FullName: string = "";
+  FirstName: string = "";
+  LastName: string = "";
   LastLogin: Date = new Date();
   Enabled: boolean = false;
   isLoading: boolean = false;
@@ -66,6 +77,8 @@ class Store {
       this.users,
       this.Username,
       this.FullName,
+      this.FirstName,
+      this.LastName,
       this.LastLogin,
       this.Enabled
     );
@@ -73,6 +86,9 @@ class Store {
     this.FullName = "";
     this.LastLogin = new Date();
     this.Enabled = false;
+  }
+  getUser(id: number) {
+    return getUser(this.users, id);
   }
 }
 

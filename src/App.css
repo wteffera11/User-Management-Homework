@@ -1,7 +1,19 @@
+html {
+  height: 100%;
+}
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
 .App {
   display: flex;
-  flex-direction: column;
-  background-color: "red";
+  height: 100vh;
 }
 .btn {
   align-self: flex-end;

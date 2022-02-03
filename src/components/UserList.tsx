@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import {
   Grid,
   GridColumn as Column,
-  GridColumnMenuFilter,
+  GridRowClickEvent,
 } from "@progress/kendo-react-grid";
 import { observer } from "mobx-react";
 import store from "../mobx/store";
@@ -12,6 +12,7 @@ import {
   filterBy,
   SortDescriptor,
 } from "@progress/kendo-data-query";
+import { useNavigate } from "react-router";
 
 interface UserListProps {}
 
@@ -33,8 +34,16 @@ const UserList: React.FC<UserListProps> = ({}) => {
     ],
   };
 
+  //using navigate to navigate to the user details pages
+  const navigate = useNavigate();
   const [currentSort, setSort] = useState(initialSort);
   const [filter, setFilter] = useState(initialFilter);
+
+  //handling row click
+  const handleRowClick = (e: GridRowClickEvent) => {
+    const id = e.dataItem.id;
+    navigate(`/user-detail/${id}`);
+  };
 
   return (
     <Grid
@@ -47,6 +56,7 @@ const UserList: React.FC<UserListProps> = ({}) => {
         setSort(e.sort);
       }}
       onFilterChange={(e) => setFilter(e.filter)}
+      onRowDoubleClick={handleRowClick}
     >
       <Column field="Username" title="User Name" />
       <Column field="FullName" title="Full Name" filterable={false} />
@@ -68,10 +78,6 @@ const UserList: React.FC<UserListProps> = ({}) => {
       />
     </Grid>
   );
-};
-
-const ColumnM = () => {
-  return <h1>Hello</h1>;
 };
 
 const ObserverableUserList = observer(UserList);
