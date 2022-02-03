@@ -12,7 +12,7 @@ const addUser = (
   users: User[],
   Username: string,
   FullName: string,
-  LastLogin: Date,
+  LastLogin: Date = new Date(),
   Enabled: boolean
 ): User[] => [
   ...users,
