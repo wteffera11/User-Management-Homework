@@ -1,24 +1,22 @@
 import "@progress/kendo-theme-default/dist/all.css";
-import ObserverableUserList from "./components/UserList";
 import "./App.css";
-import { Button } from "@progress/kendo-react-buttons";
-import { NewUser } from "./components/NewUser";
-import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { UserList } from "./pages/UserList";
+import { UserDetail } from "./pages/UserDetail";
+import { Sidebar } from "./components/Sidebar";
+import { NotFound } from "./components/NotFound";
 
 function App() {
-  const [showDialog, setShowDialog] = useState(false);
   return (
     <div className="App">
-      <h1>User Management</h1>
-      <Button className="btn" onClick={() => setShowDialog((prev) => !prev)}>
-        New User
-      </Button>
-      {showDialog ? (
-        <NewUser showDialog={showDialog} setShowDialog={setShowDialog} />
-      ) : (
-        ""
-      )}
-      <ObserverableUserList />
+      <BrowserRouter>
+        <Sidebar />
+        <Routes>
+          <Route index element={<UserList />} />
+          <Route path="user-detail/:id" element={<UserDetail />}></Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
