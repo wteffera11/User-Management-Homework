@@ -2,18 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@progress/kendo-react-buttons";
 import { NewUser } from "../components/NewUser";
 import ObserverableUserList from "../components/UserList";
-import axios from "axios";
-import { log } from "console";
 
 interface UserListProps {}
 
 export const UserList: React.FC<UserListProps> = () => {
-  useEffect(() => {
-    axios
-      .get("/api/users")
-      .then((data) => data)
-      .then((response) => console.log(response.data.users));
-  });
   const [showDialog, setShowDialog] = useState(false);
   return (
     <div style={{ flex: 8, margin: "10px" }}>

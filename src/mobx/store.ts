@@ -1,4 +1,6 @@
 import { makeAutoObservable } from "mobx";
+import { useState } from "react";
+import { getUsers, getUserById } from "../services/userServices";
 
 export interface User {
   id: number;
@@ -30,12 +32,23 @@ const addUser = (
     Enabled,
   },
 ];
-
+const updateUser = (
+  id: number,
+  users: User[],
+  FullName: string,
+  FirstName: string,
+  LastName: string,
+  Enabled: boolean
+): User[] =>
+  users.map((user) => ({
+    ...user,
+    FirstName: user.id === id ? FirstName : user.FirstName,
+    LastName: user.id === id ? LastName : user.LastName,
+    FullName: user.id === id ? FullName : user.FullName,
+    Enabled: user.id === id ? Enabled : user.Enabled,
+  }));
 const removeUser = (users: User[], id: number): User[] =>
   users.filter((user) => user.id === id);
-
-const getUser = (users: User[], id: number): User | undefined =>
-  users.find((user) => user.id === id);
 
 //Mobx implementation
 class Store {
@@ -50,19 +63,12 @@ class Store {
 
   constructor() {
     makeAutoObservable(this);
-    this.loadUsers();
   }
 
   //load user from mock json file
-  loadUsers() {
+  async loadUsers() {
     this.isLoading = true;
-    fetch("users.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((res) => res.json())
+    await getUsers()
       .then((data) => {
         /* Convert the string Last login to Date so that kendo format prop work*/
         data.map((d: User) => {
@@ -87,8 +93,19 @@ class Store {
     this.LastLogin = new Date();
     this.Enabled = false;
   }
-  getUser(id: number) {
-    return getUser(this.users, id);
+  updateUser(id: number) {
+    this.users = updateUser(
+      id,
+      this.users,
+      this.FullName,
+      this.FirstName,
+      this.LastName,
+      this.Enabled
+    );
+    this.Username = "";
+    this.FullName = "";
+    this.LastLogin = new Date();
+    this.Enabled = false;
   }
 }
 

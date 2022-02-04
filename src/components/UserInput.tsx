@@ -1,5 +1,10 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { Form, Field, FormElement } from "@progress/kendo-react-form";
+import {
+  Form,
+  Field,
+  FormElement,
+  FormRenderProps,
+} from "@progress/kendo-react-form";
 import { Checkbox, Input } from "@progress/kendo-react-inputs";
 import { Button } from "@progress/kendo-react-buttons";
 import store from "../mobx/store";
@@ -23,6 +28,8 @@ export const UserInput: React.FC<UserInputProps> = ({
   const handleSubmit = (dataItem: { [name: string]: any }) => {
     // console.log(data.enabled);
     store.Username = dataItem.userName;
+    store.FirstName = dataItem.firstName;
+    store.LastName = dataItem.lastName;
     store.FullName = dataItem.firstName + " " + dataItem.lastName;
     store.LastLogin = dataItem.lastLogin;
     store.Enabled = dataItem.enabled;
@@ -34,7 +41,7 @@ export const UserInput: React.FC<UserInputProps> = ({
     <>
       <Form
         onSubmit={handleSubmit}
-        render={() => (
+        render={(formRenderProps: FormRenderProps) => (
           <FormElement
             style={{
               width: "100%",
@@ -64,7 +71,15 @@ export const UserInput: React.FC<UserInputProps> = ({
               label="Last Name"
               name="lastName"
               component={FormInput}
-              validator={lastNameValidator}
+              validator={() =>
+                lastNameValidator(
+                  formRenderProps.valueGetter("lastName"),
+                  formRenderProps.valueGetter,
+                  {
+                    name: "firstName",
+                  }
+                )
+              }
               style={{ width: "90%" }}
             />
             <div style={{ margin: "0.5rem 0" }}>

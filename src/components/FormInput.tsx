@@ -5,12 +5,6 @@ import { Input } from "@progress/kendo-react-inputs";
 
 import { Label, Error, Hint } from "@progress/kendo-react-labels";
 
-interface columnsInterface {
-  field: string;
-  header: any;
-  width: string;
-}
-
 export const FormInput = (fieldRenderProps: FieldRenderProps) => {
   const {
     validationMessage,
@@ -22,6 +16,7 @@ export const FormInput = (fieldRenderProps: FieldRenderProps) => {
     hint,
     type,
     optional,
+    defaultValue,
     ...others
   } = fieldRenderProps;
 
@@ -46,6 +41,7 @@ export const FormInput = (fieldRenderProps: FieldRenderProps) => {
           valid={valid}
           type={type}
           id={id}
+          defaultValue={defaultValue}
           disabled={disabled}
           ariaDescribedBy={`${hintId} ${errorId}`}
           {...others}
