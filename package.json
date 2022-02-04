@@ -14,6 +14,7 @@
     "@progress/kendo-react-grid": "^4.0.0",
     "@progress/kendo-react-inputs": "^4.14.1",
     "@progress/kendo-react-intl": "^4.14.1",
+    "@progress/kendo-react-tooltip": "^4.0.0",
     "@progress/kendo-react-treeview": "^4.14.1",
     "@progress/kendo-theme-default": "^4.0.0",
     "@progress/kendo-theme-material": "^5.1.1",

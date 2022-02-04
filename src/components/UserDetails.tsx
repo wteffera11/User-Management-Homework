@@ -1,63 +1,112 @@
-import { Field, Form, FormElement } from "@progress/kendo-react-form";
+import {
+  Field,
+  Form,
+  FormElement,
+  FormRenderProps,
+} from "@progress/kendo-react-form";
 import { Checkbox } from "@progress/kendo-react-inputs";
 import React, { useEffect, useState } from "react";
-import { User } from "../mobx/store";
+import store, { User } from "../mobx/store";
+import {
+  firstNameValidator,
+  lastNameValidator,
+  userNameValidator,
+} from "../Validation/Validator";
 import { FormInput } from "./FormInput";
 
+import { Button } from "@progress/kendo-react-buttons";
+import { useNavigate } from "react-router";
+
 interface UserDetailProps {
-  user: User | undefined;
+  user?: User | undefined;
 }
 
 export const UserDetails: React.FC<UserDetailProps> = ({ user }) => {
-  const [initialValues, setInitialValues] = useState({});
-  const userObj = { ...user };
-  const { FirstName, LastName } = userObj;
+  const navigate = useNavigate();
+  const handleSubmit = (dataItem: { [name: string]: any }) => {
+    alert(JSON.stringify(dataItem));
+    store.FirstName = dataItem.firstName;
+    store.LastName = dataItem.lastName;
+    store.FullName = dataItem.firstName + " " + dataItem.lastName;
+    store.Enabled = dataItem.enabled;
 
-  useEffect(() => {
-    var initialValues = {
-      firstName: FirstName,
-      lastName: LastName,
-    };
-    setInitialValues(() => initialValues);
-  }, [FirstName, LastName]);
-
-  const handleSubmit = () => {
-    //console.log(handleSubmit);
+    store.updateUser(dataItem.id);
+    navigate("/");
   };
+
   return (
-    <div>
-      <h1>User Detail Page</h1>
-      <hr style={{ width: "100%" }} />
+    <>
       <Form
         onSubmit={handleSubmit}
-        initialValues={initialValues}
-        render={() => (
-          <FormElement>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <label style={{ marginRight: "2rem" }}>User Name</label>
-              <p style={{ fontWeight: "bold" }}>{user ? user.Username : ""}</p>
-            </div>
+        initialValues={{
+          userName: user ? user.Username : "",
+          firstName: user ? user.FirstName : "",
+          lastName: user ? user.LastName : "",
+          enabled: user ? user.Enabled : false,
+        }}
+        render={(formRenderProps: FormRenderProps) => (
+          <FormElement
+            style={{
+              width: "60%",
+              display: "flex",
+              flexDirection: "column",
+              marginLeft: "2rem",
+            }}
+          >
             <Field
+              id={"userName"}
+              label={"User Name"}
+              name={"userName"}
+              disabled={true}
+              component={FormInput}
+              validator={userNameValidator}
+              style={{ width: "90%" }}
+            />
+            <Field
+              id="firstName"
               label="First Name"
               name="firstName"
               component={FormInput}
-              style={{ width: "400px" }}
+              validator={firstNameValidator}
+              style={{ width: "90%" }}
             />
             <Field
+              id="lastName"
               label="Last Name"
               name="lastName"
               component={FormInput}
-              style={{ width: "400px" }}
+              validator={() =>
+                lastNameValidator(
+                  formRenderProps.valueGetter("lastName"),
+                  formRenderProps.valueGetter,
+                  {
+                    name: "firstName",
+                  }
+                )
+              }
+              style={{ width: "90%" }}
             />
-            <Field
-              label="Enabled"
-              name="enabled"
-              component={Checkbox}
-              style={{ width: "400px" }}
-            />
+            <div style={{ margin: "0.5rem 0" }}>
+              <Field
+                label="Enabled"
+                name="enabled"
+                component={Checkbox}
+                style={{ margin: "1rem" }}
+              />
+            </div>
+            <Button
+              className="success"
+              style={{ width: "90%", fontWeight: "bold" }}
+            >
+              Submit
+            </Button>
           </FormElement>
         )}
       ></Form>
-    </div>
+    </>
   );
 };
+
+/**
+ *
+ */

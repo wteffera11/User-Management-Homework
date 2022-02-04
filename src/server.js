@@ -13,7 +13,7 @@ export default function () {
         FirstName: "Ermias",
         LastName: "Tefera",
         FullName: "Ermias Tefera",
-        LastLogin: "2012-04-23T18:25:43.511Z",
+        LastLogin: new Date("2012-04-23T18:25:43.511Z"),
         Enabled: false,
       });
       server.create("user", {
@@ -22,7 +22,7 @@ export default function () {
         FirstName: "Anna",
         LastName: "Capkova",
         FullName: "Anna Capkova",
-        LastLogin: "2021-07-07T00:00:00",
+        LastLogin: new Date("2021-07-07T00:00:00"),
         Enabled: true,
       });
       server.create("user", {
@@ -31,7 +31,7 @@ export default function () {
         FirstName: "Yared",
         LastName: "Yenealem",
         FullName: "Yared Yenealem",
-        LastLogin: "2021-07-07T00:00:00",
+        LastLogin: new Date("2021-07-07T00:00:00"),
         Enabled: false,
       });
       server.create("user", {
@@ -40,7 +40,7 @@ export default function () {
         FirstName: "Bety",
         LastName: "Ask",
         FullName: "Bety Ask",
-        LastLogin: "2021-07-07T00:00:00",
+        LastLogin: new Date("2021-07-07T00:00:00"),
         Enabled: true,
       });
       server.create("user", {
@@ -49,13 +49,25 @@ export default function () {
         FirstName: "New",
         LastName: "User",
         FullName: "New User",
-        LastLogin: "2021-07-07T00:00:00",
+        LastLogin: new Date("2021-07-07T00:00:00"),
         Enabled: true,
       });
     },
     routes() {
       this.get("/api/users", (schema) => {
         return schema.users.all();
+      });
+
+      this.get("/api/users/:id", (schema, request) => {
+        let id = request.params.id;
+        return schema.users.find(id);
+      });
+      let newId = 4;
+      this.post("/api/reminders", (schema, request) => {
+        let attrs = JSON.parse(request.requestBody);
+        attrs.id = newId++;
+
+        return { user: attrs };
       });
     },
   });
